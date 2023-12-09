@@ -16,11 +16,11 @@ export class UsersAuthController {
     return await this.usersAuthService.login(loginUserDto);
   }
 
-  // @Post('refresh')
-  // async refreshToken(@Body() bodyToken: any) {
-  //   const result = await this.usersAuthService.refresh(bodyToken.refreshToken);
-  //   return result;
-  // }
+  @Post('refresh')
+  async refreshToken(@Body() bodyToken: any) {
+    const result = await this.usersAuthService.refresh(bodyToken.RefreshToken);
+    return result;
+  }
 
   // @Post('logout')
   // async logout(@Body() bodyToken: any) {
