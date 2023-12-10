@@ -7,19 +7,19 @@ const UserStatus = {
 
 @Entity('dm_NhanVien')
 export class User {
-    @PrimaryColumn({ type: 'nvarchar', length: 100, nullable: false })
+    @PrimaryColumn({ type: 'nvarchar', nullable: false })
     ID: string;
 
-    @Column({ type: 'nvarchar', length: 100, nullable: true })
+    @Column({ type: 'nvarchar', nullable: true })
     ID_KhachHang: string;
 
-    @Column({ type: 'nvarchar', length: 50, nullable: true })
+    @Column({ type: 'nvarchar', nullable: true })
     UserName: string;
 
-    @Column({ type: 'nvarchar', length: 50, nullable: true })
+    @Column({ type: 'nvarchar', nullable: true })
     PassWord: string;
 
-    @Column({ type: 'nvarchar', length: 255, nullable: true })
+    @Column({ type: 'nvarchar', nullable: true })
     HoTen: string;
 
     @Column({ type: 'bit', default: UserStatus.Active, nullable: true })
