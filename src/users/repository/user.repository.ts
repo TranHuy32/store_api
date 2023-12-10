@@ -32,13 +32,8 @@ export class UserRepository extends Repository<User> {
     }
 
     async getBy(fieldName: string, fieldValue: any): Promise<User | undefined> {
-        console.log(fieldName);
-        console.log(fieldValue);
-
         const query = {};
         query[fieldName] = fieldValue;
-        console.log(query);
-
         return await this.findOne({ where: query });
     }
 }
