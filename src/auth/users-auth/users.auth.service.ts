@@ -30,8 +30,8 @@ export class UsersAuthService {
 
   // login
   async login(loginUserDto: LoginUserDto) {
-    const { UserName, PassWord } = loginUserDto;
-    const user = await this.usersService.validateUser(UserName, PassWord);
+    const { UserName, PassWord, MaDV } = loginUserDto;
+    const user = await this.usersService.validateUser(UserName, PassWord, MaDV);
     if (!user) return false;
     const token = await this._createToken(user, false);
     return token

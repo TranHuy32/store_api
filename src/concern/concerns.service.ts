@@ -17,7 +17,7 @@ export class ConcernsService {
     return rs;
   }
 
-  async findByMaDV(maDV: string): Promise<Concern> {
+  async findByMaDV(maDV: string): Promise<Concern> {    
     const concern = await this.concernRepository.findOne({ where: { MaDV: maDV } })
     return concern;
 }

@@ -6,6 +6,7 @@ import { UserRepository } from './repository/user.repository';
 import * as bcrypt from 'bcrypt';
 import { TokensService } from 'src/tokens/tokens.service';
 import { CreateTokenDto } from 'src/tokens/dto/create-token.dto';
+import { ConcernsService } from 'src/concern/concerns.service';
 
 const moment = require('moment');
 
@@ -15,6 +16,7 @@ export class UsersService {
         @InjectRepository(User)
         private userRepository: UserRepository,
         private tokensService: TokensService,
+        private concernsService: ConcernsService,
     ) { }
 
     async findAll(): Promise<User[]> {
@@ -39,8 +41,12 @@ export class UsersService {
     }
 
     // Kiem tra nguoi dung
-    async validateUser(UserName: string, PassWord: string) {
-        const user = await this.userRepository.findOne({ where: { UserName: UserName } })
+    async validateUser(UserName: string, PassWord: string, MaDV: string) {
+        const user = await this.userRepository.findOne({ where: { UserName: UserName } })        
+        const concern = await this.concernsService.findByMaDV(MaDV)
+        if(!concern || concern.MaDV !== MaDV){
+            throw new UnauthorizedException('Wrong MaDV');
+        }
         if (!user) throw new UnauthorizedException('Wrong UserName');
         if (!user.InUsed) throw new UnauthorizedException('User Is Inactive');
         if (!(PassWord === user.PassWord)) throw new UnauthorizedException('Wrong Password');
