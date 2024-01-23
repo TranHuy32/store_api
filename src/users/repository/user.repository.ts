@@ -10,7 +10,7 @@ export class UserRepository extends Repository<User> {
     }
 
     async findUserById(id: string): Promise<User | undefined> {
-        return await this.findOne({ where: { ID: id } })
+        return await this.findOne({ where: { id: id } })
     }
 
     async createUser(userData: Partial<User>): Promise<User> {
@@ -20,7 +20,7 @@ export class UserRepository extends Repository<User> {
 
     async updateUserById(id: string, userData: Partial<User>): Promise<User | undefined> {
         await this.update(id, userData);
-        return this.findOne({ where: { ID: id } })
+        return this.findOne({ where: { id: id } })
     }
 
     async deleteUserById(id: string): Promise<void> {
@@ -28,7 +28,7 @@ export class UserRepository extends Repository<User> {
     }
 
     async findUserByUserName(userName: string): Promise<User | undefined> {
-        return await this.findOne({ where: { UserName: userName } })
+        return await this.findOne({ where: { username: userName } })
     }
 
     async getBy(fieldName: string, fieldValue: any): Promise<User | undefined> {

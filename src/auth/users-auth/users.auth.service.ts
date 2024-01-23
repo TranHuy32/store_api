@@ -21,7 +21,7 @@ export class UsersAuthService {
         expiresIn: process.env.EXPIRESIN_REFRESH,
       },
     );
-    await this.usersService.updateRefreshToken(user.UserName, {
+    await this.usersService.updateRefreshToken(user.username, {
       RefreshToken: refreshToken,
       AccessToken: accessToken,
     });
@@ -30,8 +30,8 @@ export class UsersAuthService {
 
   // login
   async login(loginUserDto: LoginUserDto) {
-    const { UserName, PassWord, MaDV } = loginUserDto;
-    const user = await this.usersService.validateUser(UserName, PassWord, MaDV);
+    const { username, password } = loginUserDto;
+    const user = await this.usersService.validateUser(username, password);
     if (!user) return false;
     const token = await this._createToken(user, false);
     return token
