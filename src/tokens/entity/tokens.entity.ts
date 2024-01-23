@@ -1,23 +1,23 @@
 import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('dm_Token')
+@Entity('m_token')
 export class Token {
     @PrimaryColumn({ type: 'nvarchar', length: 100, nullable: false })
-    ID: string;
+    id: string;
 
     @Column({ type: 'nvarchar', length: 100, nullable: true })
-    UserID: string;
+    staff_id: string;
 
     @Column({ type: 'nvarchar', length: 200, nullable: true })
-    AccessToken: string;
+    access_token: string;
 
     @Column({ type: 'nvarchar', length: 200, nullable: true })
-    RefreshToken: string;
+    refresh_token: string;
 
     @Column({ type: 'datetime', nullable: true })
-    CreatedOn: Date;
+    created_at: Date;
 
     @Column({ type: 'datetime', nullable: true })
-    EditedOn: Date;
+    updated_at: Date;
 
 }

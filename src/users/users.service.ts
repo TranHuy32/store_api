@@ -23,14 +23,14 @@ export class UsersService {
     }
 
     async getUserByRefresh(refreshToken: string, userName: string) {
-        const user = await this.userRepository.findOne({ where: { UserName: userName } })
+        const user = await this.userRepository.findOne({ where: { username: userName } })
         if (!user) {
             throw new UnauthorizedException('User Not Found');
         }
-        const token = await this.tokensService.findTokenByUserId(user.ID)
+        const token = await this.tokensService.findTokenByUserId(user.id)
         const is_equal = await bcrypt.compare(
             refreshToken.split('').reverse().join(''),
-            token.RefreshToken.trim()
+            token.refresh_token.trim()
         );
         if (!is_equal) {
             throw new UnauthorizedException();
@@ -40,28 +40,27 @@ export class UsersService {
 
     // Kiem tra nguoi dung
     async validateUser(UserName: string, PassWord: string) {
-        const user = await this.userRepository.findOne({ where: { UserName: UserName } })
+        const user = await this.userRepository.findOne({ where: { username: UserName } })
         if (!user) throw new UnauthorizedException('Wrong UserName');
-        if (!user.InUsed) throw new UnauthorizedException('User Is Inactive');
-        if (!(PassWord === user.PassWord)) throw new UnauthorizedException('Wrong Password');
+        if (!!!user.deleted_at) throw new UnauthorizedException('User Is Inactive');
+        if (!(PassWord === user.password)) throw new UnauthorizedException('Wrong Password');
         return this.getDetailUser(user);
     }
 
     //Lay du lieu User
     async getDetailUser(user: User): Promise<any> {
-        const editedOnTimestamp = user.EditedOn.valueOf();
+        const updatedAtTimestamp = user.updated_at.valueOf();
         return {
-            ID: user.ID,
-            ID_KhachHang: user.ID_KhachHang,
-            UserName: user.UserName,
-            HoTen: user.HoTen,
-            InUsed: user.InUsed,
-            EditedOn: editedOnTimestamp,
+            ID: user.id,
+            username: user.username,
+            name: user.name,
+            deleted_at: user.deleted_at,
+            UpdatedAt: updatedAtTimestamp,
         };
     }
 
     async updateRefreshToken(userName: string, update: any) {
-        const existingUser = await this.userRepository.findOne({ where: { UserName: userName } })
+        const existingUser = await this.userRepository.findOne({ where: { username: userName } })
         if (existingUser) {
             if (update.RefreshToken) {
                 update.RefreshToken = await bcrypt.hash(
@@ -75,18 +74,18 @@ export class UsersService {
                     );
                 }
             }
-            const token = await this.tokensService.findTokenByUserId(existingUser.ID)
+            const token = await this.tokensService.findTokenByUserId(existingUser.id)
             if (!token) {
                 const createTokenDto = new CreateTokenDto();
-                createTokenDto.UserID = existingUser.ID;
-                createTokenDto.RefreshToken = update.RefreshToken;
-                createTokenDto.AccessToken = update.AccessToken;
+                createTokenDto.staff_id = existingUser.id;
+                createTokenDto.refresh_token = update.RefreshToken;
+                createTokenDto.access_token = update.AccessToken;
                 this.tokensService.createToken(createTokenDto)
             } else {
-                token.RefreshToken = update.RefreshToken;
-                token.AccessToken = update.AccessToken;
-                token.EditedOn = new Date()
-                await this.tokensService.updateTokenById(token.ID, token)
+                token.refresh_token = update.RefreshToken;
+                token.access_token = update.AccessToken;
+                token.updated_at = new Date()
+                await this.tokensService.updateTokenById(token.id, token)
             }
         }
         return existingUser

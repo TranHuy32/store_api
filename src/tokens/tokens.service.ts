@@ -1,6 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { Token } from './entity/tokens.entity';
 import { TokenRepository } from './repository/tokens.repository';
 import { CreateTokenDto } from './dto/create-token.dto';
@@ -18,30 +17,30 @@ export class TokensService {
     async createToken(
         createTokenDto: CreateTokenDto,
     ): Promise<Token | string> {
-        const token = await this.findTokenByUserId(createTokenDto.UserID);
+        const token = await this.findTokenByUserId(createTokenDto.staff_id);
         if (token) {
             return 'Token existed';
         } else {
-            const a = this.tokenRepository.create({ ...createTokenDto, CreatedOn: new Date(), ID: uuidv4() });
+            const a = this.tokenRepository.create({ ...createTokenDto, created_at: new Date(), id: uuidv4() });
             return await this.tokenRepository.save(a);
         }
     }
 
     async findTokenByUserId(user_id: string): Promise<Token> {
-        const token = await this.tokenRepository.findOne({ where: { UserID: user_id } })
+        const token = await this.tokenRepository.findOne({ where: { staff_id: user_id } })
         return token;
     }
 
     async findTokenById(id: string): Promise<Token> {
-        return this.tokenRepository.findOne({ where: { ID: id } })
+        return this.tokenRepository.findOne({ where: { id: id } })
     }
 
     async findTokenByRefreshToken(refreshToken: string): Promise<Token> {
-        return this.tokenRepository.findOne({ where: { RefreshToken: refreshToken } })
+        return this.tokenRepository.findOne({ where: { refresh_token: refreshToken } })
     }
 
-    async updateTokenById(ID: string, tokenData: Partial<Token>): Promise<Token | undefined> {
-        await this.tokenRepository.update(ID, tokenData);
-        return this.tokenRepository.findOne({ where: { ID: ID } })
+    async updateTokenById(id: string, tokenData: Partial<Token>): Promise<Token | undefined> {
+        await this.tokenRepository.update(id, tokenData);
+        return this.tokenRepository.findOne({ where: { id: id } })
     }
 }

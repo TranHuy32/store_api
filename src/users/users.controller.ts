@@ -13,7 +13,7 @@ export class UsersController {
         private readonly usersService: UsersService,
     ) { }
 
-    @Post('Register')
+    @Post('register')
     async register(@Body() Body: any) {
         // return await this.usersService.findDetailByUserName(user.userName);
     }

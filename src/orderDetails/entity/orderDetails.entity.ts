@@ -1,29 +1,24 @@
 import { Entity, Column, PrimaryColumn } from 'typeorm';
 
-const UserStatus = {
-    Active: 1,
-    Inactive: 0,
-};
-
-@Entity('m_staff')
-export class User {
+@Entity('t_orderDetail')
+export class OrderDetail {
     @PrimaryColumn({ type: 'nvarchar', nullable: false })
     id: string;
 
     @Column({ type: 'nvarchar', nullable: true })
-    username: string;
+    order_id: string;
 
     @Column({ type: 'nvarchar', nullable: true })
-    password: string;
+    product_id: string;
 
-    @Column({ type: 'nvarchar', nullable: true })
-    name: string;
+    @Column({ type: 'number', nullable: true })
+    quantity: string;
 
-    @Column({ type: 'int', nullable: true })
-    role: number;
-    
+    @Column({ type: 'number', nullable: true })
+    price: string;
+
     @Column({ type: 'datetime', nullable: true })
-    deleted_at: number; 
+    deleted_at: number;
 
     @Column({ type: 'datetime', nullable: true })
     created_at: Date;

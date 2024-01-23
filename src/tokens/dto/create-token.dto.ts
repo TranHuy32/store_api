@@ -1,5 +1,5 @@
 export class CreateTokenDto {
-    UserID: string;
-    AccessToken: string;
-    RefreshToken: string;
+    staff_id: string;
+    access_token: string;
+    refresh_token: string;
 }
