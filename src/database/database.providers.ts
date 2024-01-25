@@ -6,9 +6,9 @@ export const databaseProviders = [
         useFactory: async (): Promise<TypeOrmModuleOptions> => ({
             type: 'mssql',
             host: 'localhost',
-            port: 2000,
+            port: 27021,
             username: 'sa',
-            password: "gifttech!3201",
+            password: "Gifttech@3201",
             database: 'store',
             entities: [__dirname + '/../**/*.entity{.ts,.js}'],
             synchronize: false,
