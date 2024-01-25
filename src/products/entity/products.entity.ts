@@ -11,10 +11,10 @@ export class Product {
     @Column({ type: 'nvarchar', nullable: true })
     name: string;
 
-    @Column({ type: 'number', nullable: true })
+    @Column({ type: 'int', nullable: true })
     price: string;
 
-    @Column({ type: 'number', nullable: true })
+    @Column({ type: 'int', nullable: true })
     discount_rate: string;
 
     @Column({ type: 'nvarchar', nullable: true })
@@ -32,10 +32,10 @@ export class Product {
     @Column({ type: 'nvarchar', nullable: true })
     image_path: string;
 
-    @Column({ type: 'nvarchar', nullable: true })
-    is_best_seller: string;
+    @Column({ type: 'bit', nullable: true })
+    is_best_seller: number;
 
-    @Column({ type: 'number', nullable: true })
+    @Column({ type: 'int', nullable: true })
     remain_quantity: string;
 
     @Column({ type: 'datetime', nullable: true })

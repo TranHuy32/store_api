@@ -8,10 +8,10 @@ export class Order {
     @Column({ type: 'nvarchar', nullable: true })
     customer_id: string;
 
-    @Column({ type: 'number', nullable: true })
+    @Column({ type: 'int', nullable: true })
     total_price: string;
 
-    @Column({ type: 'number', nullable: true })
+    @Column({ type: 'int', nullable: true })
     staff_id: string;
 
     @Column({ type: 'datetime', nullable: true })

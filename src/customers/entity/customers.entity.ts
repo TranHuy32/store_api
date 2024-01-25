@@ -11,7 +11,7 @@ export class Customer {
     @Column({ type: 'nvarchar', nullable: true })
     address: string;
 
-    @Column({ type: 'number', nullable: true })
+    @Column({ type: 'int', nullable: true })
     phonenumber: string;
 
     @Column({ type: 'nvarchar', nullable: true })

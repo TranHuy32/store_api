@@ -5,16 +5,16 @@ export const databaseProviders = [
         provide: 'DATABASE_CONNECTION',
         useFactory: async (): Promise<TypeOrmModuleOptions> => ({
             type: 'mssql',
-            host: '116.97.240.113',
-            port: 1539,
+            host: 'localhost',
+            port: 2000,
             username: 'sa',
-            password: 'CCna@123123',
-            database: 'UserAll',
+            password: "gifttech!3201",
+            database: 'store',
             entities: [__dirname + '/../**/*.entity{.ts,.js}'],
             synchronize: false,
             options: {
                 encrypt: false,
             },
         }),
-    },
+    }
 ];
