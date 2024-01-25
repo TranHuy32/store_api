@@ -1,19 +1,43 @@
 import {
     Body,
-    Controller, Get, Post,
+    Controller, Get, Post, Query, Req, UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './products.service';
+import BaseController from 'src/base.controller';
+import { UserAuthGuard } from 'src/auth/users-auth/guards/auth.guard';
+import CommonError, { ErrorCode } from 'src/common/error/common.error';
 
 
-@Controller('product')
-export class ProductController {
+@Controller('products')
+export class ProductController extends BaseController {
     constructor(
         private readonly productService: ProductService,
-    ) { }
+    ) {
+        super();
+    }
 
-    @Get('findAll')
-    async findAll(@Body() Body: any) {
-        return await this.productService.findAll();
+    @UseGuards(UserAuthGuard)
+    @Get('all')
+    async findAll(
+        @Query() query: any,
+        @Req() req: any,
+        ) {
+        try {
+            const user = req.user; 
+            if (!user) {
+              throw new CommonError(ErrorCode.USER_IS_EMPTY);
+            }
+
+            const result = await this.productService.findAll(user, query);
+            
+            if (result instanceof CommonError) {
+              throw result;
+            }
+            return this.data(result);
+          } catch (error) {
+            if (error instanceof CommonError) return error;
+            return this.fail(error);
+          }
     }
 
 }

@@ -11,10 +11,10 @@ export class OrderDetail {
     @Column({ type: 'nvarchar', nullable: true })
     product_id: string;
 
-    @Column({ type: 'number', nullable: true })
+    @Column({ type: 'int', nullable: true })
     quantity: string;
 
-    @Column({ type: 'number', nullable: true })
+    @Column({ type: 'int', nullable: true })
     price: string;
 
     @Column({ type: 'datetime', nullable: true })

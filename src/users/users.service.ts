@@ -6,7 +6,7 @@ import { UserRepository } from './repository/user.repository';
 import * as bcrypt from 'bcrypt';
 import { TokensService } from 'src/tokens/tokens.service';
 import { CreateTokenDto } from 'src/tokens/dto/create-token.dto';
-import { ConcernsService } from 'src/concern/concerns.service';
+import CommonError, { ErrorCode } from 'src/common/error/common.error';
 
 const moment = require('moment');
 
@@ -22,6 +22,14 @@ export class UsersService {
     async findAll(): Promise<User[]> {
         const rs = await this.userRepository.find();
         return rs
+    }
+
+    async getUserById(id: string) {
+        const user = await this.userRepository.findOne({ where: { id } })
+        if (!user) {
+            throw new CommonError(ErrorCode.USER_NOT_FOUND);
+        }
+        return user;
     }
 
     async getUserByRefresh(refreshToken: string, userName: string) {
@@ -44,20 +52,19 @@ export class UsersService {
     async validateUser(UserName: string, PassWord: string) {
         const user = await this.userRepository.findOne({ where: { username: UserName } })
         if (!user) throw new UnauthorizedException('Wrong UserName');
-        if (!!!user.deleted_at) throw new UnauthorizedException('User Is Inactive');
+        if (!!user.deleted_at) throw new UnauthorizedException('User Is Inactive');
         if (!(PassWord === user.password)) throw new UnauthorizedException('Wrong Password');
         return this.getDetailUser(user);
     }
 
     //Lay du lieu User
     async getDetailUser(user: User): Promise<any> {
-        const updatedAtTimestamp = user.updated_at.valueOf();
+        const updatedAtTimestamp = user?.updated_at?.valueOf() || null;
         return {
-            ID: user.id,
+            id: user.id,
             username: user.username,
             name: user.name,
-            deleted_at: user.deleted_at,
-            UpdatedAt: updatedAtTimestamp,
+            updatedAt: updatedAtTimestamp,
         };
     }
 
