@@ -17,7 +17,6 @@ export class ProductService {
     ) { }
 
     async getProductOption(product: Product, isDetail: boolean): Promise<any> {
-        console.log(product);
         const category = !!product.category_id ?  await this.categoryService.getCateoryById(product.category_id) : null
         if (!isDetail) {
             return {
