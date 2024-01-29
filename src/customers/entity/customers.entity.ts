@@ -11,7 +11,7 @@ export class Customer {
     @Column({ type: 'nvarchar', nullable: true })
     address: string;
 
-    @Column({ type: 'int', nullable: true })
+    @Column({ type: 'nvarchar', nullable: true })
     phonenumber: string;
 
     @Column({ type: 'nvarchar', nullable: true })
@@ -21,7 +21,7 @@ export class Customer {
     TIN: string;
 
     @Column({ type: 'datetime', nullable: true })
-    deleted_at: number;
+    deleted_at: Date;
 
     @Column({ type: 'datetime', nullable: true })
     created_at: Date;

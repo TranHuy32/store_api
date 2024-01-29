@@ -101,3 +101,25 @@ BEGIN
     PRINT 'Table "m_category" already exists.';
 END
 GO
+
+-- Check if the table 'm_customer' exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'm_customer')
+BEGIN
+    CREATE TABLE m_customer (
+        id nvarchar(100),
+        name varchar(100),
+        address varchar(100),
+        phonenumber varchar(20),
+        email varchar(100),
+        TIN varchar(100),
+        deleted_at datetime,
+        created_at datetime,
+        updated_at datetime
+    );
+    PRINT 'Table "m_customer" created.';
+END
+ELSE
+BEGIN
+    PRINT 'Table "m_customer" already exists.';
+END
+GO

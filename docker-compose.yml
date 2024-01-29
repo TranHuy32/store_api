@@ -14,7 +14,7 @@ services:
     depends_on:
       - sql-server
     environment:
-      SA_PASSWORD: "Gifttech@3201"   # Mật khẩu SA phải khớp với mật khẩu ở trên
+      SA_PASSWORD: "Gifttech@3201"   
       ACCEPT_EULA: Y
     command: /bin/bash -c 'sleep 30s && /opt/mssql-tools/bin/sqlcmd -S sql-server -U SA -P Gifttech@3201 -d master -i /scripts/init-db.sql'
     volumes:

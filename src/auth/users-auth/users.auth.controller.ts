@@ -13,6 +13,7 @@ export class UsersAuthController {
 
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto) {
+    console.log('[API] POST users-auth/login');
     return await this.usersAuthService.login(loginUserDto);
   }
 

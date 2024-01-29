@@ -16,7 +16,6 @@ export class UsersService {
         @InjectRepository(User)
         private userRepository: UserRepository,
         private tokensService: TokensService,
-        private concernsService: ConcernsService,
     ) { }
 
     async findAll(): Promise<User[]> {
@@ -27,7 +26,7 @@ export class UsersService {
     async getUserById(id: string) {
         const user = await this.userRepository.findOne({ where: { id } })
         if (!user) {
-            throw new CommonError(ErrorCode.USER_NOT_FOUND);
+            return null;
         }
         return user;
     }

@@ -22,6 +22,7 @@ export class ProductController extends BaseController {
         @Query() query: any,
         @Req() req: any,
         ) {
+        console.log('[API] GET products/all');
         try {
             const user = req.user; 
             if (!user) {
