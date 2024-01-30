@@ -17,7 +17,6 @@ export class ProductService {
     ) { }
 
     async getProductOption(product: Product, isDetail: boolean): Promise<any> {
-        console.log(product);
         const category = !!product.category_id ?  await this.categoryService.getCateoryById(product.category_id) : null
         if (!isDetail) {
             return {
@@ -49,6 +48,18 @@ export class ProductService {
                 name: category?.name || null
             }
         }
+    }
+
+    async getProductById(id: string) {
+        const customer = await this.productRepository.findOne({ where: { id } })
+        if (!customer) {
+            return null;
+        }
+        return customer;
+    }
+
+    async saveProduct(product: any): Promise<any> {
+        this.productRepository.save(product)
     }
 
     async findAll(user: User, q?: any): Promise<{ products: Product[]; total: number }> {

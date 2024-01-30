@@ -12,13 +12,13 @@ export class OrderDetail {
     product_id: string;
 
     @Column({ type: 'int', nullable: true })
-    quantity: string;
+    quantity: number;
 
     @Column({ type: 'int', nullable: true })
-    price: string;
+    price: number;
 
     @Column({ type: 'datetime', nullable: true })
-    deleted_at: number;
+    deleted_at: Date;
 
     @Column({ type: 'datetime', nullable: true })
     created_at: Date;

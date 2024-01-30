@@ -9,13 +9,13 @@ export class Order {
     customer_id: string;
 
     @Column({ type: 'int', nullable: true })
-    total_price: string;
+    total_price: number;
 
-    @Column({ type: 'int', nullable: true })
+    @Column({ type: 'nvarchar', nullable: true })
     staff_id: string;
 
     @Column({ type: 'datetime', nullable: true })
-    deleted_at: number;
+    deleted_at: Date;
 
     @Column({ type: 'datetime', nullable: true })
     created_at: Date;

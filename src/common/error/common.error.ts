@@ -8,6 +8,9 @@ export enum ErrorCode {
     INVALID_PHONENUMBER_FORMAT = 105,
     MISSING_PHONENUMBER = 106,
     CATEGORY_EXISTED = 107,
+    CUSTOMER_NOT_FOUND = 108,
+    PRODUCT_NOT_FOUND = 109,
+    CREATE_ORDER_DETAIL_FAIL = 110,
 }
 
 export const ErrorMessage = {
@@ -18,6 +21,9 @@ export const ErrorMessage = {
     105: 'Phone format is wrong',
     106: 'Missing phone number',
     107: 'Category was existed',
+    108: 'Customer is not found',
+    109: 'Product is not found',
+    110: 'Create order detail fail',
 };
 
 export default class CommonError extends BaseError {

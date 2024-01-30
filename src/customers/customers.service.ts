@@ -65,6 +65,14 @@ export class CustomerService {
         return customer;
     }
 
+    async getCustomerById(id: string) {
+        const customer = await this.customerRepository.findOne({ where: { id } })
+        if (!customer) {
+            return null;
+        }
+        return customer;
+    }
+
     async validatePhonenumber(phonenumber: string): Promise<Boolean> {
         if (!phonenumber) {
             throw new CommonError(ErrorCode.MISSING_PHONENUMBER);

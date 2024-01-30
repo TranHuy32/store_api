@@ -123,3 +123,45 @@ BEGIN
     PRINT 'Table "m_customer" already exists.';
 END
 GO
+
+-- Check if the table 't_order' exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 't_order')
+BEGIN
+    CREATE TABLE t_order (
+        id nvarchar(100),
+        customer_id varchar(100),
+        total_price int,
+        staff_id varchar(100),
+        phonenumber varchar(20),
+        deleted_at datetime,
+        created_at datetime,
+        updated_at datetime
+    );
+    PRINT 'Table "t_order" created.';
+END
+ELSE
+BEGIN
+    PRINT 'Table "t_order" already exists.';
+END
+GO
+
+-- Check if the table 't_orderDetail' exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 't_orderDetail')
+BEGIN
+    CREATE TABLE t_orderDetail (
+        id nvarchar(100),
+        order_id varchar(100),
+        product_id varchar(100),
+        quantity int,
+        price int,
+        deleted_at datetime,
+        created_at datetime,
+        updated_at datetime
+    );
+    PRINT 'Table "t_orderDetail" created.';
+END
+ELSE
+BEGIN
+    PRINT 'Table "t_orderDetail" already exists.';
+END
+GO

@@ -12,10 +12,10 @@ export class Product {
     name: string;
 
     @Column({ type: 'int', nullable: true })
-    price: string;
+    price: number;
 
     @Column({ type: 'int', nullable: true })
-    discount_rate: string;
+    discount_rate: number;
 
     @Column({ type: 'nvarchar', nullable: true })
     unit: string;
@@ -36,7 +36,7 @@ export class Product {
     is_best_seller: number;
 
     @Column({ type: 'int', nullable: true })
-    remain_quantity: string;
+    remain_quantity: number;
 
     @Column({ type: 'datetime', nullable: true })
     deleted_at: number;
