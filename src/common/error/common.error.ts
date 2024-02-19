@@ -11,6 +11,7 @@ export enum ErrorCode {
     CUSTOMER_NOT_FOUND = 108,
     PRODUCT_NOT_FOUND = 109,
     CREATE_ORDER_DETAIL_FAIL = 110,
+    NOT_ENOUGH_PRODUCTS = 111,
 }
 
 export const ErrorMessage = {
@@ -24,6 +25,7 @@ export const ErrorMessage = {
     108: 'Customer is not found',
     109: 'Product is not found',
     110: 'Create order detail fail',
+    111: 'Not enough products',
 };
 
 export default class CommonError extends BaseError {

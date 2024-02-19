@@ -32,7 +32,8 @@ export class OrderService {
                 name: customer?.name || null,
                 phonenumber: customer?.phonenumber || null
             },
-            products: orderDetail.filter((o) => !!o) || []
+            products: orderDetail.filter((o) => !!o) || [],
+            totalPrice: order?.total_price || null
         }
     }
 
@@ -42,13 +43,29 @@ export class OrderService {
     }
 
     async createOrder(createOrderDto: CreateOrderDto, user: any): Promise<any> {
+        let customerId = null
         const customer = await this.customerService.getCustomerById(createOrderDto.customerId);
-        if (!customer) {
-            throw new CommonError(ErrorCode.CUSTOMER_NOT_FOUND)
+        if (!!customer) {
+            customerId = customer?.id
         }
-        const orderCreated = this.orderRepository.create({ customer_id: customer.id, staff_id: user.id, created_at: new Date(), id: uuidv4() });
+        const orderCreated = this.orderRepository.create({ customer_id: customerId, staff_id: user.id, total_price: createOrderDto.totalPrice, created_at: new Date(), id: uuidv4() });
         let orderDetailsResponse = []
         if (!!createOrderDto?.orderDetail?.length && Array.isArray(createOrderDto.orderDetail)) {
+            let validOrder = true
+            await Promise.all(
+                createOrderDto.orderDetail.map(async (orderDetail) => {
+                    const validOrderDetail = await this.orderDetailService.checkOrderDetail({
+                        orderId: orderCreated.id,
+                        ...orderDetail,
+                    });
+                    if (!validOrderDetail) {
+                        validOrder = false
+                    }
+                })
+            )
+            if (!validOrder) {
+                throw new CommonError(ErrorCode.CREATE_ORDER_DETAIL_FAIL)
+            }
             orderDetailsResponse = await Promise.all(
                 createOrderDto.orderDetail.map(async (orderDetail) => {
                     const orderDetailCreated = await this.orderDetailService.createOrderDetail({

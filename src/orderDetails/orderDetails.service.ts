@@ -45,15 +45,25 @@ export class OrderDetailService {
         return rs
     }
 
+    async checkOrderDetail(createOrderDetailDto: CreateOrderDetailDto): Promise<any>{
+        if (!!!createOrderDetailDto.productId) {
+            console.log("[checkOrderDetail] Invalid productId");
+            return false
+        }
+        const product = await this.productService.getProductById(createOrderDetailDto.productId)
+        if (!!!product) {
+            console.log("[checkOrderDetail] Invalid product");
+            return false
+        }
+        if(product.remain_quantity < createOrderDetailDto.quantity){
+            console.log("[checkOrderDetail] Not enough products");
+            return false
+        }      
+        return true
+    }
+
     async createOrderDetail(createOrderDetailDto: CreateOrderDetailDto): Promise<any> {
-        try {
-            if (!!!createOrderDetailDto.productId) {
-                throw new CommonError(ErrorCode.PRODUCT_NOT_FOUND)
-            }
             const product = await this.productService.getProductById(createOrderDetailDto.productId)
-            if (!!!product) {
-                throw new CommonError(ErrorCode.PRODUCT_NOT_FOUND)
-            }
             product.remain_quantity -= createOrderDetailDto.quantity
             await this.productService.saveProduct(product);
             const orderDetailCreated = this.orderDetailRepository.create({
@@ -65,9 +75,5 @@ export class OrderDetailService {
             });
             await this.orderDetailRepository.save(orderDetailCreated);
             return orderDetailCreated
-        } catch (err) {
-            console.log("[createOrderDetail ERR]", err);
-            return
-        }
     }
 }
