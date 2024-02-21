@@ -4,7 +4,7 @@ import {
 } from '@nestjs/common';
 import { OrderService } from './orders.service';
 import { UserAuthGuard } from 'src/auth/users-auth/guards/auth.guard';
-import { CreateOrderDto } from './dto/orders.dto';
+import { CreateOrderDto } from './dto/create-orders.dto';
 import CommonError, { ErrorCode } from 'src/common/error/common.error';
 import BaseController from 'src/base.controller';
 

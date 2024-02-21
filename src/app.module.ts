@@ -11,6 +11,7 @@ import { OrderModule } from './orders/orders.module';
 import { OrderDetailModule } from './orderDetails/orderDetails.module';
 import { CustomerModule } from './customers/customers.module';
 import { OrganizationModule } from './organizations/organizations.module';
+import { ImageModule } from './image/images.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { OrganizationModule } from './organizations/organizations.module';
     OrderDetailModule,
     CustomerModule,
     OrganizationModule,
+    ImageModule
   ],
   controllers: [],
   providers: [],

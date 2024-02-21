@@ -6,6 +6,9 @@ import { User } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
 import CommonError, { ErrorCode } from 'src/common/error/common.error';
 import { CategoryService } from 'src/categories/categories.service';
+import { CreateProductDto } from './dto/create-products.dto';
+import { v4 as uuidv4 } from 'uuid';
+import { ImageService } from 'src/image/images.service';
 
 @Injectable()
 export class ProductService {
@@ -14,10 +17,16 @@ export class ProductService {
         private productRepository: ProductRepository,
         private usersService: UsersService,
         private categoryService: CategoryService,
+        private readonly imageService: ImageService,
     ) { }
 
     async getProductOption(product: Product, isDetail: boolean): Promise<any> {
-        const category = !!product.category_id ?  await this.categoryService.getCateoryById(product.category_id) : null
+        const category = !!product.category_id ? await this.categoryService.getCateoryById(product.category_id) : null
+        const image = await this.imageService.findImageById(product.image_id)
+        let imageRes = null
+        if (!!image) {
+            imageRes = await this.imageService.getImageOption(image, true)
+        }
         if (!isDetail) {
             return {
                 id: product?.id || null,
@@ -25,7 +34,7 @@ export class ProductService {
                 productCode: product?.product_code || null,
                 price: product?.price || null,
                 discountRate: product?.discount_rate || null,
-                image: product?.image_path || null,
+                image: imageRes,
                 unit: product?.unit || null,
                 remainQuanlity: product?.remain_quantity,
                 category: {
@@ -40,7 +49,7 @@ export class ProductService {
             productCode: product?.product_code || null,
             price: product?.price || null,
             discountRate: product?.discount_rate || null,
-            image: product?.image_path || null,
+            image: imageRes,
             unit: product?.unit || null,
             remainQuanlity: product?.remain_quantity,
             category: {
@@ -92,6 +101,29 @@ export class ProductService {
             responseProducts.map(async (product) => this.getProductOption(product, false)),
         );
         return { products: results, total: filteredProducts.length || 0 }
+    }
+
+    async createProduct(createProductDto: CreateProductDto, user: User, productImage: Express.Multer.File): Promise<any> {
+        const imageProductCreated = await this.imageService.createImage(productImage);
+        if (!imageProductCreated) {
+            throw new CommonError(ErrorCode.CREATE_IMAGE_FAIL)
+        }
+        const productCreated = this.productRepository.create({
+            id: uuidv4(),
+            product_code: createProductDto.productCode,
+            name: createProductDto.name,
+            price: createProductDto.price,
+            discount_rate: createProductDto.discountRate,
+            unit: createProductDto.unit,
+            note: createProductDto.note,
+            category_id: createProductDto.categoryId,
+            is_best_seller: 0,
+            remain_quantity: createProductDto.remainQuantity,
+            image_id: imageProductCreated.id,
+            created_at: new Date()
+        })
+        await this.productRepository.save(productCreated);
+        return await this.getProductOption(productCreated, true)
     }
 
 }

@@ -30,7 +30,7 @@ export class Product {
     category_id: string;
 
     @Column({ type: 'nvarchar', nullable: true })
-    image_path: string;
+    image_id: string;
 
     @Column({ type: 'bit', nullable: true })
     is_best_seller: number;

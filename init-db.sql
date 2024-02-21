@@ -69,7 +69,7 @@ BEGIN
         note varchar(100),
         manufacturer_id varchar(100),
         category_id varchar(100),
-        image_path varchar(100),
+        image_id varchar(100),
         is_best_seller bit,
         remain_quantity int,
         deleted_at datetime,
@@ -163,5 +163,21 @@ END
 ELSE
 BEGIN
     PRINT 'Table "t_orderDetail" already exists.';
+END
+GO
+
+-- Check if the table 'm_image' exists
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'm_image')
+BEGIN
+    CREATE TABLE m_image (
+        id nvarchar(100),
+        filename varchar(100),
+        created_at datetime,
+    );
+    PRINT 'Table "m_image" created.';
+END
+ELSE
+BEGIN
+    PRINT 'Table "m_image" already exists.';
 END
 GO

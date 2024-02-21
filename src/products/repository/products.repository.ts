@@ -13,8 +13,8 @@ export class ProductRepository extends Repository<Product> {
     }
 
     async createProduct(data: Partial<Product>): Promise<Product> {
-        const warehouse = this.create(data);
-        return await this.save(warehouse);
+        const product = this.create(data);
+        return await this.save(product);
     }
 
     async updateById(id: string, data: Partial<Product>): Promise<Product | undefined> {

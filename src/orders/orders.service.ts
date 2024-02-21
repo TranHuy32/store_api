@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entity/orders.entity';
 import { OrderRepository } from './repository/orders.repository';
-import { CreateOrderDto } from './dto/orders.dto';
+import { CreateOrderDto } from './dto/create-orders.dto';
 import { CustomerService } from 'src/customers/customers.service';
 import CommonError, { ErrorCode } from 'src/common/error/common.error';
 import { v4 as uuidv4 } from 'uuid';
@@ -48,7 +48,13 @@ export class OrderService {
         if (!!customer) {
             customerId = customer?.id
         }
-        const orderCreated = this.orderRepository.create({ customer_id: customerId, staff_id: user.id, total_price: createOrderDto.totalPrice, created_at: new Date(), id: uuidv4() });
+        const orderCreated = this.orderRepository.create({
+            customer_id: customerId,
+            staff_id: user.id,
+            total_price: createOrderDto.totalPrice,
+            created_at: new Date(),
+            id: uuidv4()
+        });
         let orderDetailsResponse = []
         if (!!createOrderDto?.orderDetail?.length && Array.isArray(createOrderDto.orderDetail)) {
             let validOrder = true

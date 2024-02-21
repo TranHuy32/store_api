@@ -19,7 +19,7 @@ export class CustomerService {
             return {
                 id: customer.id,
                 name: customer.name,
-                phoneNumber: customer.phonenumber,
+                phonenumber: customer.phonenumber,
                 address: customer.address,
                 email: customer.email,
             }
@@ -27,7 +27,7 @@ export class CustomerService {
         return {
             id: customer.id,
             name: customer.name,
-            phoneNumber: customer.phonenumber,
+            phonenumber: customer.phonenumber,
             address: customer.address,
             email: customer.email,
         }
